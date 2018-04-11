@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+  <head>
+	<script type="text/javascript" src="/javascripts/lib/jquery-2.1.4.js"></script> 
+	<script type="text/javascript">
+	$(document).ready(function(){
+			var flag=1;
+			var xiaqi=new Array(15);
+			for(var i=0;i<15;i++){
+				var xiaqi1=new Array(15);
+				for(var j=0;j<15;j++){
+					xiaqi1[j]=0;
+				}
+				xiaqi[i]=xiaqi1;
+			}
+			function refresh(){
+				for(var i=0;i<15;i++){
+					for(var j=0;j<15;j++){
+						xiaqi[i][j]=0;
+					}
+				}
+				flag = 1;
+			}
+			function win(xx,yy,type){
+				var count=0;
+				//横方向
+				for(var i=(yy-4>0?yy-4:0);i<=(yy+4<15?yy+4:14);i++){
+					if(xiaqi[xx][i]==type){
+						count++;
+						if(count>=5){
+							count=0;
+							return type;
+						}
+					}else{
+						count=0;
+					}	
+				}
+				
+				//竖方向
+				for(var i=(xx-4>0?xx-4:0);i<=(xx+4<15?xx+4:14);i++){
+					if(xiaqi[i][yy]==type){
+						count++;
+						if(count>=5){
+							count=0;
+							return type;
+						}
+					}else{
+						count=0;
+					}	
+				}
+				
+				//左上到右下方向
+				var step1=0,step2=0;
+				for(var i=1;i<5;i++){
+					if(xx-i>0&&yy-i>0){
+						step1++;
+					}
+				}
+				for(var i=1;i<5;i++){
+					if(xx+i<15&&yy+i<15){
+						step2++;
+					}
+				}
+				for(var i=xx-step1,j=yy-step1;i<=xx+step2;i++,j++){
+					if(xiaqi[i][j]==type){
+						count++;
+						if(count>=5){
+							count=0;
+							return type;
+						}
+					}else{
+						count=0;
+					}	
+				}
+				//右上到左下方向
+				var step11=0,step22=0;
+				for(var i=1;i<5;i++){
+					
+					if(yy-i>0&&xx+i<15){
+						step11++;
+					}
+				}
+				for(var i=1;i<5;i++){
+					if(yy+i<15&&xx-i>0){
+						step22++;
+					}
+				}
+				for(var i=xx+step11,j=yy-step11;i>=xx-step22;i--,j++){
+					if(xiaqi[i][j]==type){
+						count++;
+						if(count>=5){
+							count=0;
+							return type;
+						}
+					}else{
+						count=0;
+					}	
+				}
+				return 0;
+			}
+			
+			function luozi(color, x, y, callback){
+				$("#qipan").append("<img class='qizi' src='/images/" + color + ".png' style='height:30px;width:30px;position: absolute;top:"+(x*34-15)+"px;left:"+(y*34-15)+"px'>");
+				$("#redpoint").css({display:"block",top:(x*34-5)+"px",left:(y*34-5)+"px"});
+				callback(x,y)
+			}
+
+			$("#qipan").mouseup(function(e) {
+				if(flag%2==0){
+					return;
+				}
+				flag++;
+				var xx = (e.originalEvent.x || e.originalEvent.layerX || 0)-40;
+				var yy = (e.originalEvent.y || e.originalEvent.layerY || 0)-40;
+				// var e = e || window.event;
+				// var xx = e.offsetX - 40;
+				// var yy = e.offsetY - 40;
+				//alert(xx+"---"+yy); 
+				//alert(window.navigator.userAgent);
+				if(xx%34/34>0.5){
+				    xx=(xx-xx%34)/34+1;
+				}else{
+					xx=(xx-xx%34)/34;
+				}
+				if(yy%34/34>0.5){
+					yy=(yy-yy%34)/34+1;
+				}else{
+					yy=(yy-yy%34)/34;
+				}
+
+				if(xiaqi[yy][xx]!=0){
+					flag++;
+					return;
+				}
+				xiaqi[yy][xx]=2;
+				
+				luozi('black', yy, xx, function(x,y){
+					if(win(x,y,2)==2){
+					    alert("玩家赢");
+					    flag++;
+					    refresh();
+					    $(".qizi").remove();
+					    $("#redpoint").css({display:"none"});
+						return;
+					}
+				})
+				if(flag === 1){
+					return;
+				}
+				var url = "xiaqi";
+					$.get(url,
+						{qixingarray: xiaqi},
+					function(serverData){
+							xiaqi[serverData.x][serverData.y]=1;
+		   		        	flag++;
+		   		        	luozi('white',serverData.x,serverData.y,function(x,y){
+		   		        		if(win(x,y,1)==1){
+								    alert("电脑赢");
+								    refresh();
+								    $(".qizi").remove();
+								    $("#redpoint").css({display:"none"});
+								    
+									return;
+								}
+		   		        	})
+    		        },'json');
+			});
+		});
+	</script>
+	
+	<style type="text/css">
+		#qipan{background-image:url("/images/qizi1.jpg");
+		height: 476px;width: 476px;top:30px;left:30px;border:1px solid red;position: relative;}
+	</style>
+	
+</head>
+  
+  <body style="background-image: url('/images/newback.jpg');">
+    <div id="qipan">
+    	<div id="redpoint" style='position:absolute;z-index:2;display:none;disborder:1px solid red;height:10px;width:10px;border-radius:10px;background-color: red;top:0px;left:0px'></div>
+    </div>
+  </body>
+</html>
