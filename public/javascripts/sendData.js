@@ -5,7 +5,8 @@ $.ajax({
         url: '/getData',
         data: {
             userAgent: navigator.userAgent,
-            cid: returnCitySN["cip"],
+            cip: returnCitySN["cip"],
+            cid: returnCitySN["cid"],
             cname: returnCitySN["cname"]
         },
         success: function(data) {

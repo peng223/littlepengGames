@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script type="text/javascript" src="/javascripts/lib/jquery-2.1.4.js"></script>
+    <script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
+    <script type="text/javascript" src="/javascripts/sendData.js"></script>
+    <style type="text/css">
+      body{margin: 0px;}
+      #main{position: absolute;background-color: gray;
+        width: 100%;height: 100%;top: 0px;left: 0px;background-position-x:center;
+        background-position-y: top;background-repeat: no-repeat;
+        background-size: cover;
+      }
+      #top{position: absolute;width: 100%;height: 20%;background-color: rgb(249,75,17);
+        font-size: 30px;color: rgb(255,255,196);line-height: 150%;}
+      #top-foot{position: absolute;width: 100%;height: 5%;
+        background-color: rgb(172,63,48);top: 95%;}
+      #info{font-size: 18px;}
+      #topic{position: absolute;top: 20%;width: 100%;height: 65%;
+        background-color: rgb(31,31,31);
+        font-size: 24px;color: rgb(255,255,255);}
+      #foot{position: absolute;top: 85%;width: 100%;height: 15%;
+        background-color: rgb(249,75,17);line-height: 50px;
+        font-size: 30px;color: rgb(255,255,255);}
+      #foot-top{position: absolute;width: 100%;height: 5px;
+        background-color: rgb(172,63,48);top: 0%;}
+      #ele-con{position: absolute;left: 0px;height: 100%;width: 100%;}
+      .ele{float: left;background-color: rgb(52,52,52);
+      border-radius: 6px;line-height: 200%;}
+      #start{height: 44px;width: 150px;font-size: 28px;color: rgb(249,75,17);
+        background-color: rgb(255,224,119);border-radius: 55px;display: block;
+        margin-top: 20px;}
+      #time-con{height: 44px;width: 150px;font-size: 28px;color: rgb(249,75,17);
+        background-color: rgb(255,224,119);border-radius: 55px;display: none;
+        margin-top: 20px;}
+    </style>
+    <script type="text/javascript">
+      var step = 1, dou = 0,douflag = 0;
+      var ss = 0,mmss = 0,MyInterval = 0,douInterval = 0;
+      $(document).ready(function(){
+        function showTopic(data){
+          var table = '<dic id="ele-con">';
+          for (var i = 0; i < 5; i++) {
+            for (var j = 0; j < 5; j++) {
+              if(j === 4){
+                table += '<div class="ele ele-end" onclick="eleclick(this)" align="center">' 
+                  + data[i*5+j] + '</div>'
+              }else if(j === 0){
+                table += '<div class="ele ele-start" onclick="eleclick(this)" align="center">' 
+                  + data[i*5+j] + '</div>'
+              }else{
+                table += '<div class="ele" onclick="eleclick(this)" align="center">' 
+                + data[i*5+j] + '</div>'
+              }
+            }
+          }
+          table += '</dic>';
+          $('#topic').html(table);
+          paiban();
+          MyInterval = setInterval(function(){
+            mmss++;
+            if(mmss === 10){
+              ss++;
+              mmss = 0;
+            }
+            var s = ss < 10 ? '0' + ss : '' + ss;
+            s += '.';
+            s += mmss + 's';
+            if(ss === 120){
+              clearInterval(MyInterval);
+              $('#topic').html('挑战失败');
+            }
+            $('#time-con').html(s);
+          },100);
+        }
+
+        function getData(){
+          $.get('getYanjianshoukuaiData',
+            function(data){
+              showTopic(data);
+            },
+            'json'
+          )
+        }
+
+        $('#start').click(function(){
+          $('#start').css("display","none");
+          $('#time-con').css("display","block");
+          getData();
+        })
+
+      });
+      function eleclick(attr){
+        if(parseInt($(attr).html()) === step){
+          $(attr).css("background-color","rgb(249,75,17)");
+          step++;
+        }else{
+          if(douflag === 0){
+            douInterval = setInterval(function(){
+              var eleConWidth = parseInt($('#ele-con').css('width').replace(/px/,''));
+              if(dou%3 === 0){
+                $('.ele-start').css('margin-left',Math.floor(eleConWidth*0.05-2) + 'px');
+              }else if(dou%3 === 1){
+                $('.ele-start').css('margin-left',Math.floor(eleConWidth*0.05) + 'px');
+              }else if(dou%3 === 2){
+                $('.ele-start').css('margin-left',Math.floor(eleConWidth*0.05+2) + 'px');
+              }
+              dou++;
+              stopInterval();
+            },30);
+          }
+          douflag = 1;
+        }
+        if(step === 26){
+          step = 1;
+          ss = 0;
+          mmss = 0;
+          dou = 0
+          clearInterval(MyInterval);
+          $('#topic').html('游戏耗时：' + $('#time-con').html());
+          $('#start').css("display","block");
+          $('#time-con').html('');
+          $('#time-con').css("display","none");
+        }
+      }
+
+      function stopInterval(){
+        if(dou === 13){
+          clearInterval(douInterval);
+          dou = 0;
+          douflag = 0;
+        }
+      }
+
+      function paiban(){
+        var eleConHeight = parseInt($('#ele-con').css('height').replace(/px/,'')),
+          eleConWidth = parseInt($('#ele-con').css('width').replace(/px/,''));
+        $('.ele-end').css('margin-right',Math.floor(eleConWidth*0.05) + 'px');
+        $('.ele').css('margin-left',Math.floor(eleConWidth*0.05) + 'px');
+        $('.ele').css('margin-top',Math.floor(eleConHeight*0.05) + 'px');
+        $('.ele').css('height',Math.floor(eleConHeight*0.14) + 'px');
+        $('.ele').css('width',Math.floor(eleConWidth*0.14) + 'px');
+      }
+      window.onresize = function(){
+        paiban();
+      }
+    </script>
+  </head>
+  <body>
+    <div id = "main">
+      <div id="top" align="center">
+        <span>眼尖手快</span>
+        <div id="info">从1按到25，顺序不能乱哦~!</div>
+        <div id="top-foot"></div>
+      </div>
+      <div id = "topic" align="center">
+      </div>
+      <div id = "foot" align="center">
+        <div id="foot-top"></div>
+        <button id="start">开始游戏</button>
+        <div id="time-con"></div>
+      </div>
+    </div>
+  </body>
+</html>

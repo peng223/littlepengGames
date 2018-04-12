@@ -1,0 +1,9 @@
+﻿Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3377.1 Mobile Safari/537.36  430300  222.243.161.199  湖南省湘潭市
+Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:59.0) Gecko/20100101 Firefox/59.0  430300  222.243.161.199  湖南省湘潭市
+Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3377.1 Mobile Safari/537.36  430300  222.243.161.199  湖南省湘潭市
+
+Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:59.0) Gecko/20100101 Firefox/59.0  430300  222.243.161.199  湖南省湘潭市
+
+Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3377.1 Mobile Safari/537.36  430300  222.243.161.199  湖南省湘潭市
+Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:59.0) Gecko/20100101 Firefox/59.0  430300  222.243.161.199  湖南省湘潭市
+Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3377.1 Mobile Safari/537.36  430300  222.243.161.199  湖南省湘潭市

@@ -38,7 +38,8 @@
     <script type="text/javascript">
       $(document).ready(function(){
         var topicIndex = 0 ,
-            topics = [];
+            topics = [],
+            grade = 0;
         /**
          * [jishi 计时函数]
          * @return {[type]} [description]
@@ -46,12 +47,16 @@
         function jishi(){
           $("#progress").animate({ 
               width: "0%"
-          }, 2500 ,function(){
-            $("#progress").css("width","80%");
-            $('#start').css("display","block");
-            $('.answer').css("display","none");
-            $("#topic_con").html('game over');
+          }, 3000 - 500*grade, function(){
+            end();
           });
+        }
+        function end(){
+          $("#progress").css("width","80%");
+          $('#start').css("display","block");
+          $('.answer').css("display","none");
+          $("#topic_con").html('game over得分： ' + grade);
+          grade = 0;
         }
         /**
          * [showTopic 获取到数据后开始游戏]
@@ -89,18 +94,16 @@
           $("#progress").stop({clearQueue: true});
           $("#progress").css("width","80%");
           if(topics[topicIndex].answer !== answers){
-            $('#start').css("display","block");
-            $('.answer').css("display","none");
-            $("#topic_con").html('game over');
+            end();
             return;
           }
           topicIndex++;
+          grade++;
           if(topicIndex === 5){
             getData();
             topicIndex = 0;
           }else{
             showTopic();
-            jishi();
           }
         }
         $('#yes').click(function(){
@@ -123,10 +126,8 @@
       </div>
       <div id = "answer" align="center">
         <button id="start">开始游戏</button>
-        <center>
         <button class="answer" id="yes">√</button>
         <button class="answer" id="no">×</button>
-        </center>
       </div>
     </div>
   </body>
