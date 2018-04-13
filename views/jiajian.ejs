@@ -47,7 +47,7 @@
         function jishi(){
           $("#progress").animate({ 
               width: "0%"
-          }, 3000 - 500*grade, function(){
+          }, 3000 - (grade > 20 ? 1000 : 50*grade), function(){
             end();
           });
         }
