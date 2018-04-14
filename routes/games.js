@@ -15,5 +15,17 @@ router.get('/yanjianshoukuai', function(req, res, next){
 });
 router.get('/getYanjianshoukuaiData',function(req, res ,next){
 	res.send(getYanjianshoukuaiData());
-})
+});
+
+router.get('/plotting', function(req, res, next){
+	res.render('plotting', {title: '公式作图'});
+});
+
+router.get('/musicPlayer', function(req, res, next){
+	res.render('musicPlayer', {title: '小鹏音乐播放器'});
+});
+
+router.get('/echart', function(req, res, next){
+	res.render('echart', {title: '数据可视化'});
+});
 module.exports = router;

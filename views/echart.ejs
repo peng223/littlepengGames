@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script type="text/javascript" src="/javascripts/lib/jquery-2.1.4.js"></script>
+    <script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
+    <script type="text/javascript" src="/javascripts/sendData.js"></script>
+    <script type="text/javascript" src="/javascripts/myecharts.js"></script>
+    <style>
+        #line_main{
+          height: 500px;
+          width: 45%;
+          position: absolute;
+          left: 50%;
+          border:1px solid red;
+        }
+        #pie_main{
+          height: 500px;
+          width: 45%;
+          position: absolute;
+          left: 0px;
+          border:1px solid red;
+        }
+    </style>
+  </head>
+  <body>
+      <div id='line_main'></div>
+      <div id='pie_main'></div>
+  </body>
+  <script type="text/javascript">
+    /**
+     *  line_main:放置图形的容器的id
+     *  xname横坐标名
+     *  yname纵坐标名
+     *  横坐标数据
+     *  {aa:[]}整体数据，一个键值对一条折线
+     */
+    linebar('line_main','xname','yname',[1,2,3,4,5,6,7],{
+      aaa:[120, 132, 101, 134, 90, 230, 210],
+      bbb:[220, 182, 191, 234, 290, 330, 310],
+      ccc:[150, 232, 201, 154, 190, 330, 410]
+    });
+    /**
+     *  pie_main:放置图形的容器的id
+     *  mousename：鼠标移到上面时的name
+     *  {aa:12}整体数据
+     */
+    pie('pie_main','饼图名字','描述','mousename',{
+      aaaa:20,
+      bbbb:30,
+      cccc:25,
+      dddd:25
+    });
+  </script>
+</html>
