@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title><%= title %></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel='stylesheet' href='/stylesheets/style.css' />
+        <script type="text/javascript" src="/javascripts/lib/jquery-2.1.4.js"></script>
+        <script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
+        <script type="text/javascript" src="/javascripts/sendData.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function(){
+
+                $('#getPhoto').click(function(){
+                    $.get(
+                        'getPhoto',
+                        {xuehao: $('#xuehao').val()},
+                        function(data){
+                            setTimeout(function(){
+                                $('#imageCon').html('<img src="/userData/studentPhoto/' + $('#xuehao').val() + '.JPG">');
+                            }, 200);
+                        },
+                        'json'
+                    )
+
+                })
+
+            })
+        </script>
+        <style>
+
+        </style>
+
+    </head>
+    <body>
+        <input type="text" name="xuehao" id="xuehao"><br>
+        <button id="getPhoto">获得照片</button>
+        <div id="imageCon">
+            
+        </div>
+    </body>
+</html>
