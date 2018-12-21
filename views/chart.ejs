@@ -1,0 +1,53 @@
+<html>
+<head>
+    <title>
+        chart
+    </title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script type="text/javascript" src="/javascripts/lib/jquery-2.1.4.js"></script>
+    <script type="text/javascript">
+        var ws = new WebSocket("ws://localhost:8080");
+
+        ws.onopen = function (e) {
+            console.log('Connection to server opened');
+        }
+        ws.onmessage = function(event) { 
+            var info = "<div class='info left'>" + event.data + "</div>";
+            $('#content').html($('#content').html() + info);
+        }; 
+        ws.onclose = function (e) {
+            alert('Connection to server opened');
+        }
+        function sendMessage() {
+            var message = document.getElementById('text').value;
+            var info = "<div class='info right'>" + message + "</div>";
+            $('#content').html($('#content').html() + info);
+            ws.send(message);
+        }
+    </script>
+    <style type="text/css">
+        #content{
+            border: 0px solid red;
+            width: 70%;
+            height: 100%;
+            background-color: rgba(128,128,128,0.7);
+        }
+        .info{
+            border:1px solid gray;
+        }
+        .left{
+            text-align: left;
+        }
+        .right{
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <input type="text" id="text">
+    <input type="button" onclick="sendMessage()" value="online">
+    <div id="content">
+        
+    </div>
+</body>
+</html>
