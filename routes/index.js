@@ -8,4 +8,7 @@ router.get('/', function(req, res, next) {
 router.get('/chart', function(req, res, next){
 	res.render('chart', {title: ''});
 });
+router.get('/toMin', function(req, res, next){
+	res.render('toMin', {title: '迷之转换'});
+});
 module.exports = router;
