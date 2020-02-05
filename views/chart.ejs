@@ -6,12 +6,12 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <script type="text/javascript" src="/javascripts/lib/jquery-2.1.4.js"></script>
     <script type="text/javascript">
-        var ws = new WebSocket("ws://localhost:8080");
+        var ws = new WebSocket("ws://192.168.124.50:8080");
 
         ws.onopen = function (e) {
             console.log('Connection to server opened');
         }
-        ws.onmessage = function(event) { 
+        ws.onmessage = function(event) {
             var info = "<div class='info left'>" + event.data + "</div>";
             $('#content').html($('#content').html() + info);
         }; 
