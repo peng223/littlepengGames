@@ -11,4 +11,7 @@ router.get('/chart', function(req, res, next){
 router.get('/toMin', function(req, res, next){
 	res.render('toMin', {title: '迷之转换'});
 });
+router.get('/TOU', function(req, res, next){
+	res.render('love', {title: '贪吃蛇'});
+});
 module.exports = router;
